@@ -1,0 +1,273 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets and Small Laptops */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0;
+    background: none;
+  }
+
+  .nav-menu a {
+    border: none;
+    padding: 0 20px;
+    font-size: 1.1rem;
+  }
+
+  .mobile-header {
+    padding: 20px 40px;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .hero p {
+    font-size: 1.3rem;
+    max-width: 600px;
+  }
+
+  .about-content {
+    flex-direction: row;
+    gap: 60px;
+  }
+
+  .about-image {
+    height: 450px;
+  }
+
+  .contact-info {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  .contact-item {
+    flex: 1;
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .contact-icon {
+    align-self: center;
+  }
+
+  section {
+    padding: 100px 40px;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Large Desktops */
+@media (min-width: 1200px) {
+  .mobile-header {
+    padding: 20px 60px;
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+  }
+
+  .about-content {
+    gap: 80px;
+  }
+
+  .about-text p {
+    font-size: 1.2rem;
+  }
+
+  .pdf-container {
+    padding: 50px 40px;
+  }
+
+  section {
+    padding: 120px 60px;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 767px) {
+  .hero {
+    background-attachment: scroll;
+    height: 80vh;
+    min-height: 500px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .cta-button {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  section {
+    padding: 60px 15px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .about-image {
+    height: 250px;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .contact-icon {
+    align-self: center;
+  }
+
+  .social-links {
+    gap: 15px;
+  }
+
+  .social-links a {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+
+  .back-to-top {
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+  .mobile-header {
+    padding: 12px 15px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  section {
+    padding: 50px 10px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  .pdf-container {
+    padding: 30px 20px;
+  }
+
+  .pdf-icon {
+    font-size: 3rem;
+  }
+
+  .download-btn {
+    padding: 12px 25px;
+    font-size: 1rem;
+  }
+
+  .footer-logo {
+    font-size: 1.8rem;
+  }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    padding: 100px 20px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+}
+
+/* High DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+      url('../images/restaurant-hero@2x.jpg');
+  }
+  
+  .about-image img {
+    content: url('../images/restaurant-interior@2x.jpg');
+  }
+}
+
+/* Print Styles */
+@media print {
+  .back-to-top,
+  .menu-toggle,
+  .social-links,
+  .cta-button {
+    display: none !important;
+  }
+
+  header {
+    position: static;
+  }
+
+  .hero {
+    background: none !important;
+    color: black;
+    height: auto;
+  }
+
+  .hero h1 {
+    color: black;
+  }
+
+  .hero p {
+    color: black;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}
