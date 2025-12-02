@@ -156,3 +156,590 @@
     <script src="js/main.js"></script>
   </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meat Overdose - إعلان خاص</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* تصميم الإعلان المنبثق */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-container {
+            background: linear-gradient(135deg, #2c1a0a 0%, #3e2412 100%);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+            transform: translateY(50px);
+            transition: transform 0.5s ease;
+            border: 1px solid #5a3a1a;
+        }
+
+        .popup-overlay.active .popup-container {
+            transform: translateY(0);
+        }
+
+        .popup-header {
+            background-color: #4a2c14;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #d4a762;
+            position: relative;
+        }
+
+        .popup-header h2 {
+            color: #d4a762;
+            font-size: 28px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .popup-header p {
+            color: #f0e6d6;
+            font-size: 16px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: #d4a762;
+            color: #2c1a0a;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .close-btn:hover {
+            background-color: #f5c98d;
+            transform: rotate(90deg);
+        }
+
+        .popup-content {
+            padding: 30px;
+        }
+
+        .offer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .offer-icon {
+            background-color: #d4a762;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #2c1a0a;
+            box-shadow: 0 5px 15px rgba(212, 167, 98, 0.4);
+        }
+
+        .offer-title {
+            color: #f0e6d6;
+            font-size: 24px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .offer-desc {
+            text-align: center;
+            color: #c9b8a4;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        .offer-code {
+            background-color: #4a2c14;
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 2px dashed #d4a762;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .offer-code span {
+            color: #d4a762;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .copy-code {
+            background-color: #d4a762;
+            color: #2c1a0a;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .copy-code:hover {
+            background-color: #f5c98d;
+        }
+
+        .popup-footer {
+            padding: 20px;
+            background-color: #3e2412;
+            border-top: 1px solid #5a3a1a;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #d4a762;
+            color: #2c1a0a;
+        }
+
+        .btn-primary:hover {
+            background-color: #f5c98d;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(212, 167, 98, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #d4a762;
+            border: 2px solid #d4a762;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(212, 167, 98, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .countdown {
+            margin-top: 15px;
+            color: #c9b8a4;
+            font-size: 14px;
+        }
+
+        .countdown span {
+            color: #d4a762;
+            font-weight: 700;
+        }
+
+        /* تصميم عرض الموقع التجريبي */
+        .demo-site {
+            width: 100%;
+            background-color: #2c1a0a;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 40px;
+            border: 1px solid #5a3a1a;
+        }
+
+        .demo-header {
+            background-color: #4a2c14;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #5a3a1a;
+        }
+
+        .demo-title {
+            color: #d4a762;
+            font-size: 24px;
+        }
+
+        .demo-nav a {
+            color: #f0e6d6;
+            margin-right: 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .demo-nav a:hover {
+            color: #d4a762;
+        }
+
+        .demo-hero {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(rgba(44, 26, 10, 0.9), rgba(44, 26, 10, 0.9)), url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .demo-hero h1 {
+            color: #d4a762;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .demo-hero p {
+            color: #f0e6d6;
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+
+        .demo-hero .cta-button {
+            display: inline-block;
+            background-color: #d4a762;
+            color: #2c1a0a;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .demo-hero .cta-button:hover {
+            background-color: #f5c98d;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(212, 167, 98, 0.4);
+        }
+
+        .instruction {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #2c1a0a;
+            border-radius: 10px;
+            border: 1px solid #5a3a1a;
+            max-width: 800px;
+        }
+
+        .instruction h3 {
+            color: #d4a762;
+            margin-bottom: 15px;
+        }
+
+        .instruction p {
+            color: #c9b8a4;
+            margin-bottom: 15px;
+        }
+
+        .instruction code {
+            background-color: #4a2c14;
+            color: #d4a762;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .popup-container {
+                width: 95%;
+            }
+            
+            .popup-content {
+                padding: 20px;
+            }
+            
+            .offer-title {
+                font-size: 22px;
+            }
+            
+            .offer-desc {
+                font-size: 16px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .demo-hero h1 {
+                font-size: 28px;
+            }
+            
+            .demo-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .popup-header h2 {
+                font-size: 24px;
+            }
+            
+            .offer-code {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .demo-hero {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #d4a762; text-align: center; margin-bottom: 30px;">Meat Overdose Restaurant</h1>
+        <p style="text-align: center; color: #c9b8a4; margin-bottom: 40px; font-size: 18px;">عرض توضيحي للإعلان المنبثق الذي سيظهر عند فتح الموقع</p>
+        
+        <!-- زر عرض الإعلان المنبثق -->
+        <div style="text-align: center; margin-bottom: 30px;">
+            <button id="showPopupBtn" class="btn btn-primary" style="margin: 0 auto;">
+                <i class="fas fa-bullhorn"></i> عرض الإعلان المنبثق
+            </button>
+        </div>
+        
+        <!-- شرح كيفية الاستخدام -->
+        <div class="instruction">
+            <h3>كيفية إضافة الإعلان المنبثق لموقعك</h3>
+            <p>1. انسخ كود HTML و CSS الخاص بالإعلان المنبثق (بداية من .popup-overlay وحتى نهاية script)</p>
+            <p>2. الصق الكود في نهاية ملف HTML لموقع Meat Overdose، قبل إغلاق الوسم <code>&lt;/body&gt;</code></p>
+            <p>3. سيظهر الإعلان تلقائيًا عند تحميل الصفحة</p>
+            <p>4. يمكنك تخصيص النص، الألوان، ومدة العرض حسب رغبتك</p>
+        </div>
+        
+        <!-- عرض تجريبي للموقع -->
+        <div class="demo-site">
+            <div class="demo-header">
+                <div class="demo-title">Meat Overdose</div>
+                <div class="demo-nav">
+                    <a href="#home">الرئيسية</a>
+                    <a href="#about">من نحن</a>
+                    <a href="#menu">القائمة</a>
+                    <a href="#contact">اتصل بنا</a>
+                </div>
+            </div>
+            <div class="demo-hero">
+                <h1>مرحبًا بكم في Meat Overdose</h1>
+                <p>اختبر التميز الطهي مع قائمتنا الفاخرة المصنوعة من أفضل المكونات</p>
+                <a href="#menu" class="cta-button">عرض قائمتنا</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- الإعلان المنبثق -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-container">
+            <div class="popup-header">
+                <button class="close-btn" id="closePopupBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>عرض خاص!</h2>
+                <p>فقط لزوار Meat Overdose عبر الإنترنت</p>
+            </div>
+            
+            <div class="popup-content">
+                <div class="offer-content">
+                    <div class="offer-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    
+                    <h3 class="offer-title">احصل على خصم 20% على أول طلب لك</h3>
+                    
+                    <p class="offer-desc">
+                        استمتع بتجربة Meat Overdose مع خصم حصري خاص بزوار الموقع الإلكتروني. 
+                        يمكنك استخدام هذا الكود للحصول على خصم على طلبك الأول سواء في المطعم أو للتوصيل.
+                    </p>
+                    
+                    <div class="offer-code">
+                        <span id="discountCode">MEAT20</span>
+                        <button class="copy-code" id="copyCodeBtn">
+                            <i class="far fa-copy"></i> نسخ الكود
+                        </button>
+                    </div>
+                    
+                    <p class="offer-desc" style="font-size: 16px;">
+                        صالح للاستخدام حتى: <span style="color: #d4a762;">30 ديسمبر 2025</span>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="popup-footer">
+                <div class="action-buttons">
+                    <a href="#menu" class="btn btn-primary" id="viewMenuBtn">
+                        <i class="fas fa-utensils"></i> عرض القائمة
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-phone-alt"></i> احجز طاولة
+                    </a>
+                </div>
+                
+                <div class="countdown">
+                    <p>هذا العرض يختفي بعد: <span id="countdownTimer">05:00</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // العناصر الرئيسية
+        const popupOverlay = document.getElementById('popupOverlay');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+        const showPopupBtn = document.getElementById('showPopupBtn');
+        const copyCodeBtn = document.getElementById('copyCodeBtn');
+        const discountCode = document.getElementById('discountCode');
+        const countdownTimer = document.getElementById('countdownTimer');
+        const viewMenuBtn = document.getElementById('viewMenuBtn');
+        
+        // عرض الإعلان المنبثق عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // عرض الإعلان بعد تأخير بسيط لمحاكاة تحميل الموقع
+            setTimeout(() => {
+                popupOverlay.classList.add('active');
+                startCountdown(300); // 5 دقائق
+            }, 1000);
+        });
+        
+        // عرض الإعلان عند النقر على الزر (للتجربة فقط)
+        showPopupBtn.addEventListener('click', function() {
+            popupOverlay.classList.add('active');
+            startCountdown(300); // إعادة تشغيل العد التنازلي
+        });
+        
+        // إغلاق الإعلان المنبثق
+        closePopupBtn.addEventListener('click', closePopup);
+        
+        // إغلاق عند النقر خارج الإعلان
+        popupOverlay.addEventListener('click', function(e) {
+            if (e.target === popupOverlay) {
+                closePopup();
+            }
+        });
+        
+        // نسخ كود الخصم
+        copyCodeBtn.addEventListener('click', function() {
+            navigator.clipboard.writeText(discountCode.textContent).then(() => {
+                // تغيير نص الزر للإشارة إلى النسخ
+                const originalText = copyCodeBtn.innerHTML;
+                copyCodeBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ!';
+                copyCodeBtn.style.backgroundColor = '#4CAF50';
+                
+                // العودة إلى النص الأصلي بعد 2 ثانية
+                setTimeout(() => {
+                    copyCodeBtn.innerHTML = originalText;
+                    copyCodeBtn.style.backgroundColor = '#d4a762';
+                }, 2000);
+            });
+        });
+        
+        // وظيفة إغلاق الإعلان
+        function closePopup() {
+            popupOverlay.classList.remove('active');
+        }
+        
+        // العد التنازلي
+        function startCountdown(seconds) {
+            let timeLeft = seconds;
+            
+            const countdownInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    closePopup();
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                countdownTimer.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                timeLeft--;
+            }, 1000);
+        }
+        
+        // إضافة تأثيرات تفاعلية للأزرار
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // لمحاكاة موقع Meat Overdose الحقيقي
+        viewMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('في الموقع الحقيقي، سيتم توجيهك إلى قسم القائمة. هنا نعرض فقط تصميم الإعلان المنبثق.');
+        });
+    </script>
+</body>
+</html>
